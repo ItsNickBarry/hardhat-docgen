@@ -1,0 +1,31 @@
+{
+  "name": "hardhat-docgen",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Generate NatSpec documentation automatically on compilation",
+  "keywords": [
+    "hardhat",
+    "natspec",
+    "documentation",
+    "devdoc",
+    "userdoc",
+    "buidler",
+    "solidity",
+    "solc",
+    "smart-contracts",
+    "ethereum",
+    "blockchain",
+    "wow"
+  ],
+  "repository": "https://github.com/ItsNickBarry/hardhat-docgen",
+  "author": "Nick Barry",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "peerDependencies": {
+    "hardhat": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "hardhat": "^2.0.0"
+  }
+}
