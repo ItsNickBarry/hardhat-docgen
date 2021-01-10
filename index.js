@@ -11,6 +11,8 @@ const {
 extendConfig(function (config, userConfig) {
   config.docgen = Object.assign(
     {
+      path: './docgen',
+      clear: false,
       runOnCompile: false,
     },
     userConfig.docgen
@@ -21,9 +23,21 @@ const NAME = 'docgen';
 const DESC = 'Generate NatSpec documentation automatically on compilation';
 
 task(NAME, DESC, async function (args, hre) {
-  const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
+  const config = hre.config.docgen;
 
   const output = {};
+
+  const outputDirectory = path.resolve(hre.config.paths.root, config.path);
+
+  if (config.clear) {
+    fs.rmdirSync(outputDirectory, { recursive: true });
+  }
+
+  if (!fs.existsSync(outputDirectory)) {
+    fs.mkdirSync(outputDirectory, { recursive: true });
+  }
+
+  const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
   for (let fullName of fullNames) {
     const [source, name] = fullName.split(':');
@@ -31,7 +45,6 @@ task(NAME, DESC, async function (args, hre) {
     const { devdoc = {}, userdoc = {} } = (
       await hre.artifacts.getBuildInfo(fullName)
     ).output.contracts[source][name];
-
 
     const { title, author, details } = devdoc;
     const { notice } = userdoc;
@@ -72,7 +85,7 @@ task(NAME, DESC, async function (args, hre) {
     }, {});
 
     // TODO: use relative url
-    const url = path.resolve(hre.config.paths.root, 'documentation', fullName);
+    const url = path.resolve(outputDirectory, fullName);
 
     output[fullName] = {
       source,
@@ -87,8 +100,6 @@ task(NAME, DESC, async function (args, hre) {
       url,
     };
   }
-
-  // TODO: clear documentation directory
 
   const navLinks = Object.values(output).map(function ({ name, source, url }) {
     // TODO: define CSS separately
