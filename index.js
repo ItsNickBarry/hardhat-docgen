@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { extendConfig } = require('hardhat/config');
 
+const generateHTML = require('./html.js');
+
 const {
   TASK_COMPILE,
 } = require('hardhat/builtin-tasks/task-names');
@@ -69,6 +71,9 @@ task(NAME, DESC, async function (args, hre) {
       return acc;
     }, {});
 
+    // TODO: use relative url
+    const url = path.resolve(hre.config.paths.root, 'documentation', fullName);
+
     output[fullName] = {
       source,
       name,
@@ -79,14 +84,30 @@ task(NAME, DESC, async function (args, hre) {
       events,
       stateVariables,
       methods,
+      url,
     };
   }
 
-  const base64 = Buffer.from(JSON.stringify(output)).toString('base64');
-  const jsonp = `loadDocumentation = function () { return JSON.parse(atob('${ base64 }', 'base64').toString('ascii')) }`;
+  // TODO: clear documentation directory
 
-  const destination = path.resolve(hre.config.paths.root, 'documentation.js');
-  fs.writeFileSync(destination, `${ jsonp }\n`, { flag: 'w' });
+  const navLinks = Object.values(output).map(function ({ name, source, url }) {
+    // TODO: define CSS separately
+    return `<a
+      class="border-gray-500 border py-2 px-4 rounded"
+      href="${ url }.html"
+    >${ name } - ${ source }</a>`;
+  }).join('');
+
+  for (let key in output) {
+    const html = generateHTML(output[key], navLinks);
+    const { url } = output[key];
+
+    if (!fs.existsSync(path.dirname(url))) {
+      fs.mkdirSync(path.dirname(url), { recursive: true });
+    }
+
+    fs.writeFileSync(`${ url }.html`, html, { flag: 'w' });
+  }
 });
 
 task(TASK_COMPILE, async function (args, hre, runSuper) {
