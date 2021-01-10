@@ -27,5 +27,8 @@
   "devDependencies": {
     "eslint": "^7.0.0",
     "hardhat": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=12.10.0"
   }
 }
