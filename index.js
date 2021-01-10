@@ -84,8 +84,7 @@ task(NAME, DESC, async function (args, hre) {
       return acc;
     }, {});
 
-    // TODO: use relative url
-    const url = path.resolve(outputDirectory, fullName);
+    const destination = path.resolve(outputDirectory, fullName);
 
     output.push({
       source,
@@ -97,27 +96,27 @@ task(NAME, DESC, async function (args, hre) {
       events,
       stateVariables,
       methods,
-      url,
+      destination,
     });
   }
 
-  const navLinks = output.map(function ({ name, source, url }) {
-    // TODO: define CSS separately
+  const navLinks = output.map(function ({ name, source, destination }) {
     return `<a
-      class="border-gray-500 border py-2 px-4 rounded"
-      href="${ url }.html"
+      href="./${ path.relative(outputDirectory, destination) }.html"
     >${ name } - ${ source }</a>`;
-  }).join('');
+  }).join('<br>');
+
+  fs.writeFileSync(path.resolve(outputDirectory, 'index.html'), navLinks, { flag: 'w' });
 
   for (let el of output) {
-    const html = generateHTML(el, navLinks);
-    const { url } = el;
+    const html = generateHTML(el);
+    const { destination } = el;
 
-    if (!fs.existsSync(path.dirname(url))) {
-      fs.mkdirSync(path.dirname(url), { recursive: true });
+    if (!fs.existsSync(path.dirname(destination))) {
+      fs.mkdirSync(path.dirname(destination), { recursive: true });
     }
 
-    fs.writeFileSync(`${ url }.html`, html, { flag: 'w' });
+    fs.writeFileSync(`${ destination }.html`, html, { flag: 'w' });
   }
 });
 
