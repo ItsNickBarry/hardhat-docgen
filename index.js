@@ -19,12 +19,12 @@ const NAME = 'docgen';
 const DESC = 'Generate NatSpec documentation automatically on compilation';
 
 task(NAME, DESC, async function (args, hre) {
-  let fullNames = await hre.artifacts.getAllFullyQualifiedNames();
+  const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
 
-  let fullOutput = {};
+  const output = {};
 
   for (let fullName of fullNames) {
-    let [source, name] = fullName.split(':');
+    const [source, name] = fullName.split(':');
 
     const { devdoc = {}, userdoc = {} } = (
       await hre.artifacts.getBuildInfo(fullName)
@@ -69,7 +69,7 @@ task(NAME, DESC, async function (args, hre) {
       return acc;
     }, {});
 
-    const output = {
+    output[fullName] = {
       source,
       name,
       title,
@@ -80,12 +80,10 @@ task(NAME, DESC, async function (args, hre) {
       stateVariables,
       methods,
     };
-
-    fullOutput[fullName] = output;
   }
 
-  const base64 = Buffer.from(JSON.stringify(fullOutput)).toString('base64');
-  const jsonp = `loadDocumentation = function () { return JSON.parse(Buffer.from('${ base64 }', 'base64').toString('ascii')) }`;
+  const base64 = Buffer.from(JSON.stringify(output)).toString('base64');
+  const jsonp = `loadDocumentation = function () { return JSON.parse(atob('${ base64 }', 'base64').toString('ascii')) }`;
 
   const destination = path.resolve(hre.config.paths.root, 'documentation.js');
   fs.writeFileSync(destination, `${ jsonp }\n`, { flag: 'w' });
