@@ -1,0 +1,36 @@
+{
+  "source": "contracts/Test.sol",
+  "name": "Test",
+  "title": "\"@title\"",
+  "author": "\"@author\"",
+  "details": "\"@dev\"",
+  "notice": "\"@notice\"",
+  "events": {
+    "Transfer(address)": {
+      "details": "\"@dev\"",
+      "params": {
+        "from": "\"@param from\""
+      },
+      "notice": "\"@notice\""
+    }
+  },
+  "stateVariables": {
+    "n": {
+      "details": "\"@dev\"",
+      "return": "\"@return (uint)\"",
+      "notice": "\"@notice\""
+    }
+  },
+  "methods": {
+    "fn(uint256)": {
+      "details": "\"@dev\"(line 2)\"\"@dev (line 3)\"",
+      "params": {
+        "n": "\"@param n\""
+      },
+      "returns": {
+        "_0": "\"@return (uint)\""
+      },
+      "notice": "\"@notice\""
+    }
+  }
+}
