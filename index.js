@@ -25,7 +25,7 @@ const DESC = 'Generate NatSpec documentation automatically on compilation';
 task(NAME, DESC, async function (args, hre) {
   const config = hre.config.docgen;
 
-  const output = {};
+  const output = [];
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
@@ -87,7 +87,7 @@ task(NAME, DESC, async function (args, hre) {
     // TODO: use relative url
     const url = path.resolve(outputDirectory, fullName);
 
-    output[fullName] = {
+    output.push({
       source,
       name,
       title,
@@ -98,10 +98,10 @@ task(NAME, DESC, async function (args, hre) {
       stateVariables,
       methods,
       url,
-    };
+    });
   }
 
-  const navLinks = Object.values(output).map(function ({ name, source, url }) {
+  const navLinks = output.map(function ({ name, source, url }) {
     // TODO: define CSS separately
     return `<a
       class="border-gray-500 border py-2 px-4 rounded"
@@ -109,9 +109,9 @@ task(NAME, DESC, async function (args, hre) {
     >${ name } - ${ source }</a>`;
   }).join('');
 
-  for (let key in output) {
-    const html = generateHTML(output[key], navLinks);
-    const { url } = output[key];
+  for (let el of output) {
+    const html = generateHTML(el, navLinks);
+    const { url } = el;
 
     if (!fs.existsSync(path.dirname(url))) {
       fs.mkdirSync(path.dirname(url), { recursive: true });
