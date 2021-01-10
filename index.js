@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const { extendConfig } = require('hardhat/config');
 
 const {
@@ -18,6 +20,8 @@ const DESC = 'Generate NatSpec documentation automatically on compilation';
 
 task(NAME, DESC, async function (args, hre) {
   let fullNames = await hre.artifacts.getAllFullyQualifiedNames();
+
+  let fullOutput = {};
 
   for (let fullName of fullNames) {
     let [source, name] = fullName.split(':');
@@ -77,9 +81,14 @@ task(NAME, DESC, async function (args, hre) {
       methods,
     };
 
-    // TODO: do something with output
-    console.log(output);
+    fullOutput[fullName] = output;
   }
+
+  const base64 = Buffer.from(JSON.stringify(fullOutput)).toString('base64');
+  const jsonp = `loadDocumentation = function () { return JSON.parse(Buffer.from('${ base64 }', 'base64').toString('ascii')) }`;
+
+  const destination = path.resolve(hre.config.paths.root, 'documentation.js');
+  fs.writeFileSync(destination, `${ jsonp }\n`, { flag: 'w' });
 });
 
 task(TASK_COMPILE, async function (args, hre, runSuper) {
