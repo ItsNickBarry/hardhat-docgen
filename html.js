@@ -12,26 +12,42 @@ function generateHTML(json) {
 
     <body class="h-screen bg-gray-100 px-4 py-6">
 
-        <div class="w-full space-y-6 md:max-w-screen-sm lg:max-w-screen-md m-auto">
-            <h1 class="text-2xl text-center font-bold">${json.name} </br>
-                <code>${json.source}</code>
-            </h1>
+        <div class="w-full space-y-10 md:max-w-screen-sm lg:max-w-screen-md m-auto">
+            <code class="space-y-4">
+                <h1 class="text-xl">
+                    name: ${json.name} </br>
+                    source: ${json.source} </br>
+                    author: ${json.author}
+                </h1>
+
+                <h2 class="text-lg">
+                    title: ${json.title}
+                </h2>
+            
+                <p>details: ${json.details}</p>
+                <p>notice: ${json.notice}</p>
+            </code>
+            
             <div class="w-full">
-            <h3 class="text-xl">Events</h3>
-               <code>${JSON.stringify(json.events)}</code>
+                <pre class="text-lg">events:</pre>
+               <pre>${formatJson(json.events)}</pre>
             </div>
+
             <div class="w-full">
-            <h3 class="text-xl">State Variable</h3>
-                <code>${JSON.stringify(json.stateVariables)}</code>
+                <pre class="text-lg">stateVariables:</pre>
+                <pre>${formatJson(json.stateVariables)}</pre>
             </div>
+            
             <div class="w-full">
-            <h3 class="text-xl">Methods</h3>
-                <code>${JSON.stringify(json.methods)}</code>
+                <pre class="text-lg">methods:</pre>
+                <pre>${formatJson(json.methods)}</pre>
             </div>
         </div>
     </body>
 
     </html>`;
 }
+
+const formatJson = (json) => JSON.stringify(json, undefined, 2);
 
 module.exports = generateHTML;
