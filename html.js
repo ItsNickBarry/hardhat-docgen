@@ -30,17 +30,17 @@ function generateHTML(json) {
             
             <div class="w-full">
                 <pre class="text-lg">events:</pre>
-               <pre>${formatJson(json.events)}</pre>
+               <pre class="mt-4">${formatJson(json.events)}</pre>
             </div>
 
             <div class="w-full">
                 <pre class="text-lg">stateVariables:</pre>
-                <pre>${formatJson(json.stateVariables)}</pre>
+                <pre class="mt-4">${formatJson(json.stateVariables)}</pre>
             </div>
             
             <div class="w-full">
                 <pre class="text-lg">methods:</pre>
-                <pre>${formatJson(json.methods)}</pre>
+                <pre class="mt-4">${formatJson(json.methods)}</pre>
             </div>
         </div>
     </body>
@@ -48,6 +48,7 @@ function generateHTML(json) {
     </html>`;
 }
 
-const formatJson = (json) => JSON.stringify(json, undefined, 2);
+const formatJson = (json) =>
+  JSON.stringify(json, undefined, 2).replace(/"|{|}|,/gi, '');
 
 module.exports = generateHTML;
