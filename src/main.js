@@ -7,16 +7,18 @@ Vue.use(VueRouter);
 import Contract from './components/Contract.vue';
 import Index from './components/Index.vue';
 
+const data = process.env.DOCGEN_DATA;
+
 const routes = [
   {
     path: '/',
     component: Index,
-    props: () => ({ json: process.env.DOCGEN_DATA }),
+    props: () => ({ json: data }),
   },
   {
     path: '*',
     component: Contract,
-    props: (route) => ({ json: process.env.DOCGEN_DATA[route.path.slice(1)] }),
+    props: (route) => ({ json: data[route.path.slice(1)] }),
   },
 ];
 
