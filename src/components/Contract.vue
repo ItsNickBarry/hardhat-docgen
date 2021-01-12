@@ -37,7 +37,7 @@
 <script>
 export default {
   props: {
-    json: { type: Object, default: new Object() },
+    json: { type: Object, default: () => new Object() },
   },
 
   methods: {
