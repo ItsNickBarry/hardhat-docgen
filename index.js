@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const webpack = require('webpack');
 const { extendConfig } = require('hardhat/config');
+const { HardhatPluginError } = require('hardhat/plugins');
 
-const generateHTML = require('./html.js');
+const webpackConfig = require('./webpack.config.js');
 
 const {
   TASK_COMPILE,
@@ -25,7 +27,7 @@ const DESC = 'Generate NatSpec documentation automatically on compilation';
 task(NAME, DESC, async function (args, hre) {
   const config = hre.config.docgen;
 
-  const output = [];
+  const output = {};
 
   const outputDirectory = path.resolve(hre.config.paths.root, config.path);
 
@@ -84,9 +86,7 @@ task(NAME, DESC, async function (args, hre) {
       return acc;
     }, {});
 
-    const destination = path.resolve(outputDirectory, fullName);
-
-    output.push({
+    output[fullName] = {
       source,
       name,
       title,
@@ -96,27 +96,31 @@ task(NAME, DESC, async function (args, hre) {
       events,
       stateVariables,
       methods,
-      destination,
-    });
+    };
   }
 
-  const navLinks = output.map(function ({ name, source, destination }) {
-    return `<a
-      href="./${ path.relative(outputDirectory, destination) }.html"
-    >${ name } - ${ source }</a>`;
-  }).join('<br>');
+  console.log('hardhat-docgen: generating static site...');
 
-  fs.writeFileSync(path.resolve(outputDirectory, 'index.html'), navLinks, { flag: 'w' });
+  let error = await new Promise(function (resolve) {
+    webpackConfig.output = { ...webpackConfig.output, path: outputDirectory };
+    webpackConfig.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env': {
+          'DOCGEN_DATA': JSON.stringify(output),
+        },
+      })
+    );
 
-  for (let el of output) {
-    const html = generateHTML(el);
-    const { destination } = el;
+    webpack(
+      webpackConfig,
+      function (error, stats) {
+        resolve(error || stats.compilation.errors[0]);
+      }
+    );
+  });
 
-    if (!fs.existsSync(path.dirname(destination))) {
-      fs.mkdirSync(path.dirname(destination), { recursive: true });
-    }
-
-    fs.writeFileSync(`${ destination }.html`, html, { flag: 'w' });
+  if (error) {
+    throw new HardhatPluginError(error);
   }
 });
 
