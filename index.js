@@ -54,33 +54,33 @@ task(NAME, DESC, async function (args, hre) {
     // merge devdoc and userdoc comments
 
     const events = Object.keys(
-      { ...devdoc.events }
+      { ...devdoc.events, ...userdoc.events }
     ).reduce(function (acc, el) {
       acc[el] = {
-        ...devdoc.events[el],
-        ...userdoc.events[el],
+        ...devdoc.events?.[el],
+        ...userdoc.events?.[el],
       };
 
       return acc;
     }, {});
 
     const stateVariables = Object.keys(
-      { ...devdoc.stateVariables }
+      { ...devdoc.stateVariables, ...userdoc.methods }
     ).reduce(function (acc, el) {
       acc[el] = {
-        ...devdoc.stateVariables[el],
-        ...userdoc.methods[`${ el }()`],
+        ...devdoc.stateVariables?.[el],
+        ...userdoc.methods?.[`${ el }()`],
       };
 
       return acc;
     }, {});
 
     const methods = Object.keys(
-      { ...devdoc.methods }
+      { ...devdoc.methods, ...userdoc.methods }
     ).reduce(function (acc, el) {
       acc[el] = {
-        ...devdoc.methods[el],
-        ...userdoc.methods[el],
+        ...devdoc.methods?.[el],
+        ...userdoc.methods?.[el],
       };
 
       return acc;
