@@ -2,48 +2,46 @@
   <div class="w-full space-y-10 md:max-w-screen-sm lg:max-w-screen-md m-auto">
     <code class="space-y-4">
       <h1 class="text-xl">
-        name: {{ json.name }}
-        <br>
-        source: {{ json.source }}
-        <br>
-        author: {{ json.author }}
+        {{ json.name }} ({{ json.source }})
       </h1>
 
       <h2 class="text-lg">
-        title: {{ json.title }}
+        {{ json.title }}
       </h2>
 
-      <p>details: {{ json.details }}</p>
-      <p>notice: {{ json.notice }}</p>
+      <h2 class="text-lg">
+        {{ json.author }}
+      </h2>
+
+      <p>{{ json.notice }}</p>
+
+      <p>{{ json.details }}</p>
     </code>
 
-    <div class="w-full">
-      <pre class="text-lg">events:</pre>
-      <pre class="mt-4">{{ formatJson(json.events) }}</pre>
-    </div>
+    <MemberSet
+      title="Events"
+      :json="json.events"
+    />
 
-    <div class="w-full">
-      <pre class="text-lg">stateVariables:</pre>
-      <pre class="mt-4">{{ formatJson(json.stateVariables) }}</pre>
-    </div>
+    <MemberSet
+      title="State Variables"
+      :json="json.stateVariables"
+    />
 
-    <div class="w-full">
-      <pre class="text-lg">methods:</pre>
-      <pre class="mt-4">{{ formatJson(json.methods) }}</pre>
-    </div>
+    <MemberSet
+      title="Methods"
+      :json="json.methods"
+    />
   </div>
 </template>
 
 <script>
+import MemberSet from './MemberSet.vue';
+
 export default {
+  components: { MemberSet },
   props: {
     json: { type: Object, default: () => new Object() },
-  },
-
-  methods: {
-    formatJson: function (json = []) {
-      return JSON.stringify(json, null, 2).replace(/"|{|}|,/gi, '');
-    },
   },
 };
 </script>

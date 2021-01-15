@@ -83,15 +83,10 @@ task(NAME, DESC, async function (args, hre) {
       Object.assign(identifiers[sig], userdoc.methods[sig]);
     });
 
-    let classified = Object.keys(identifiers).reduce(function (acc, sig) {
+    const classified = Object.keys(identifiers).reduce(function (acc, sig) {
       const { type } = identifiers[sig];
-
-      if (!acc[type]) {
-        acc[type] = {};
-      }
-
+      acc[type] = acc[type] || {};
       acc[type][sig] = identifiers[sig];
-
       return acc;
     }, {});
 
