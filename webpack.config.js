@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -25,11 +26,12 @@ module.exports = {
     },
   },
   plugins: [
-    new VueLoaderPlugin(),
+    new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       title: 'Hardhat Docgen',
       template: `${ __dirname }/src/index.html`,
       filename: 'index.html',
     }),
+    new VueLoaderPlugin(),
   ],
 };

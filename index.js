@@ -113,8 +113,6 @@ task(NAME, DESC, async function (args, hre) {
     };
   }
 
-  console.log('hardhat-docgen: generating static site...');
-
   let error = await new Promise(function (resolve) {
     webpackConfig.output = { ...webpackConfig.output, path: outputDirectory };
     webpackConfig.plugins.push(
