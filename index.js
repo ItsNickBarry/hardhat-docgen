@@ -116,10 +116,8 @@ task(NAME, DESC, async function (args, hre) {
   let error = await new Promise(function (resolve) {
     webpackConfig.output = { ...webpackConfig.output, path: outputDirectory };
     webpackConfig.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env': {
-          'DOCGEN_DATA': JSON.stringify(output),
-        },
+      new webpack.EnvironmentPlugin({
+        'DOCGEN_DATA': output,
       })
     );
 
