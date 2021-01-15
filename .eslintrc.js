@@ -1,7 +1,7 @@
 module.exports = {
   'env': {
     'node': true,
-    'es2020': true,
+    'es6': true,
   },
   'extends': [
     'eslint:recommended',
@@ -11,6 +11,7 @@ module.exports = {
     'task': 'readonly',
   },
   'parserOptions': {
+    'ecmaVersion': 2018,
     'sourceType': 'module',
   },
   'rules': {

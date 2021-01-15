@@ -39,63 +39,82 @@ task(NAME, DESC, async function (args, hre) {
     fs.mkdirSync(outputDirectory, { recursive: true });
   }
 
-  const fullNames = await hre.artifacts.getAllFullyQualifiedNames();
+  const contractNames = await hre.artifacts.getAllFullyQualifiedNames();
 
-  for (let fullName of fullNames) {
-    const [source, name] = fullName.split(':');
+  for (let contractName of contractNames) {
+    const [source, name] = contractName.split(':');
 
-    const { devdoc = {}, userdoc = {} } = (
-      await hre.artifacts.getBuildInfo(fullName)
+    const { abi, devdoc = {}, userdoc = {} } = (
+      await hre.artifacts.getBuildInfo(contractName)
     ).output.contracts[source][name];
 
     const { title, author, details } = devdoc;
     const { notice } = userdoc;
 
-    // merge devdoc and userdoc comments
+    // extract constructor, receive, and fallback from abi
 
-    const events = Object.keys(
-      { ...devdoc.events, ...userdoc.events }
-    ).reduce(function (acc, el) {
-      acc[el] = {
-        ...devdoc.events?.[el],
-        ...userdoc.events?.[el],
-      };
+    const identifiers = abi.reduce(function (acc, el) {
+      // constructor, fallback, and receive do not have names
+      let name = el.name || el.type;
+      let inputs = el.inputs || [];
+      acc[`${ name }(${ inputs.map(i => i.type).join(',') })`] = el;
+      return acc;
+    }, {});
+
+    // associate devdoc and userdoc comments with abi elements
+
+    Object.keys(devdoc.events || {}).forEach(function (sig) {
+      Object.assign(identifiers[sig], devdoc.events[sig]);
+    });
+
+    Object.keys(devdoc.stateVariables || {}).forEach(function (name) {
+      Object.assign(identifiers[`${ name }()`], devdoc.stateVariables[name], { type: 'stateVariable' });
+    });
+
+    Object.keys(devdoc.methods || {}).forEach(function (sig) {
+      Object.assign(identifiers[sig], devdoc.methods[sig]);
+    });
+
+    Object.keys(userdoc.events || {}).forEach(function (sig) {
+      Object.assign(identifiers[sig], userdoc.events[sig]);
+    });
+
+    Object.keys(userdoc.methods || {}).forEach(function (sig) {
+      Object.assign(identifiers[sig], userdoc.methods[sig]);
+    });
+
+    let classified = Object.keys(identifiers).reduce(function (acc, sig) {
+      const { type } = identifiers[sig];
+
+      if (!acc[type]) {
+        acc[type] = {};
+      }
+
+      acc[type][sig] = identifiers[sig];
 
       return acc;
     }, {});
 
-    const stateVariables = Object.keys(
-      { ...devdoc.stateVariables, ...userdoc.methods }
-    ).reduce(function (acc, el) {
-      acc[el] = {
-        ...devdoc.stateVariables?.[el],
-        ...userdoc.methods?.[`${ el }()`],
-      };
+    const constructor = identifiers[Object.keys(identifiers).find(k => k.startsWith('constructor('))];
+    const { 'fallback()': fallback, 'receive()': receive } = identifiers;
 
-      return acc;
-    }, {});
-
-    const methods = Object.keys(
-      { ...devdoc.methods, ...userdoc.methods }
-    ).reduce(function (acc, el) {
-      acc[el] = {
-        ...devdoc.methods?.[el],
-        ...userdoc.methods?.[el],
-      };
-
-      return acc;
-    }, {});
-
-    output[fullName] = {
+    output[contractName] = {
+      // metadata
       source,
       name,
+      // top-level docs
       title,
       author,
       details,
       notice,
-      events,
-      stateVariables,
-      methods,
+      // special functions
+      constructor,
+      fallback,
+      receive,
+      // docs
+      events: classified.event,
+      stateVariables: classified.stateVariable,
+      methods: classified.function,
     };
   }
 
