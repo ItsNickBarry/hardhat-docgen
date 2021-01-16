@@ -35,10 +35,6 @@ task(NAME, DESC, async function (args, hre) {
     fs.rmdirSync(outputDirectory, { recursive: true });
   }
 
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory, { recursive: true });
-  }
-
   const contractNames = await hre.artifacts.getAllFullyQualifiedNames();
 
   for (let contractName of contractNames) {

@@ -21,7 +21,7 @@ Add configuration under the `docgen` key:
 | option | description | default |
 |-|-|-|
 | `path` | path to HTML export directory (relative to Hardhat root) | `'./docgen'`
-| `clear` | whether to delete old files in `path` on  | `false` |
+| `clear` | whether to delete old files in `path` on documentation generation  | `false` |
 | `runOnCompile` | whether to automatically generate documentation during compilation | `false` |
 
 ```javascript
