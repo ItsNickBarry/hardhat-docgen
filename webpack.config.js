@@ -5,6 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: `${ __dirname }/src/main.js`,
+  output: {
+    path: process.env.HARDHAT_DOCGEN_PATH,
+  },
   module: {
     rules: [
       {
@@ -27,6 +30,9 @@ module.exports = {
   },
   plugins: [
     new webpack.ProgressPlugin(),
+    new webpack.EnvironmentPlugin({
+      'HARDHAT_DOCGEN_DATA': process.env.HARDHAT_DOCGEN_DATA,
+    }),
     new HtmlWebpackPlugin({
       title: 'Hardhat Docgen',
       template: `${ __dirname }/src/index.html`,
