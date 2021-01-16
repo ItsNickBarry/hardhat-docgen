@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 import Contract from './components/Contract.vue';
 import Index from './components/Index.vue';
 
-const data = process.env.HARDHAT_DOCGEN_DATA;
+const data = process.env.DOCGEN_DATA;
 
 const routes = [
   {

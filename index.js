@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const { extendConfig } = require('hardhat/config');
 const { HardhatPluginError } = require('hardhat/plugins');
 
+const webpackConfig = require('./webpack.config.js');
+
 const {
   TASK_COMPILE,
 } = require('hardhat/builtin-tasks/task-names');
@@ -107,13 +109,16 @@ task(NAME, DESC, async function (args, hre) {
     };
   }
 
-  process.env.HARDHAT_DOCGEN_DATA = output;
-  process.env.HARDHAT_DOCGEN_PATH = outputDirectory;
-
   let error = await new Promise(function (resolve) {
+    webpackConfig.output = { ...webpackConfig.output, path: outputDirectory };
+    webpackConfig.plugins.push(
+      new webpack.EnvironmentPlugin({
+        'DOCGEN_DATA': output,
+      })
+    );
+
     webpack(
-      // webpack config must be required after env variables are set
-      require('./webpack.config.js'),
+      webpackConfig,
       function (error, stats) {
         resolve(error || stats.compilation.errors[0]);
       }
