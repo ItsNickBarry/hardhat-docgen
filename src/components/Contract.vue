@@ -18,6 +18,10 @@
       <p>{{ json.details }}</p>
     </code>
 
+    <Member :json="json.constructor" />
+    <Member :json="json.receive" />
+    <Member :json="json.fallback" />
+
     <MemberSet
       title="Events"
       :json="json.events"
@@ -36,10 +40,11 @@
 </template>
 
 <script>
+import Member from './Member.vue';
 import MemberSet from './MemberSet.vue';
 
 export default {
-  components: { MemberSet },
+  components: { Member, MemberSet },
   props: {
     json: { type: Object, default: () => new Object() },
   },
