@@ -1,7 +1,8 @@
 <template>
   <div class="w-full">
-    <pre class="text-lg">{{ title }}</pre>
+    <h2 class="text-lg">{{ title }}</h2>
     <Member
+      class="mt-3"
       v-for="sig in Object.keys(json)"
       :key="sig"
       :json="json[sig]"
@@ -17,10 +18,7 @@ export default {
 
   props: {
     title: { type: String, default: '' },
-    json: { type: Object, default: () => new Object() },
-  },
+    json: { type: Object, default: () => new Object() }
+  }
 };
 </script>
-
-<style>
-</style>
