@@ -22,7 +22,7 @@ export default {
       let trees = {};
 
       for (let path in this.json) {
-        path.split('/').reduce(function (acc, dir) {
+        path.split(/(?<=\/)/).reduce(function (acc, dir) {
           if (dir.includes(':')) {
             let [file] = dir.split(':');
             acc[file] = acc[file] || [];
