@@ -1,31 +1,16 @@
 <template>
   <div>
     {{ name }}
-    <div
-      v-if="Array.isArray(json)"
-      class="offset"
-    >
-      <div
-        v-for="(contract, index) in json"
-        :key="index"
-      >
-        <router-link :to="`${ contract.source }:${ contract.name }`">
+    <div v-if="Array.isArray(json)" class="pl-5">
+      <div v-for="(contract, index) in json" :key="index">
+        <router-link :to="`${contract.source}:${contract.name}`">
           {{ contract.name }}
         </router-link>
       </div>
     </div>
-    <div
-      v-else
-      class="offset"
-    >
-      <div
-        v-for="dir of Object.keys(json)"
-        :key="dir"
-      >
-        <Branch
-          :json="json[dir]"
-          :name="dir"
-        />
+    <div v-else class="pl-5">
+      <div v-for="dir of Object.keys(json)" :key="dir">
+        <Branch :json="json[dir]" :name="dir" />
       </div>
     </div>
   </div>
@@ -37,13 +22,7 @@ export default {
 
   props: {
     name: { type: String, default: null },
-    json: { type: [Object, Array], default: () => new Object() },
-  },
+    json: { type: [Object, Array], default: () => new Object() }
+  }
 };
 </script>
-
-<style>
-.offset {
-  padding-left: 20px;
-}
-</style>
