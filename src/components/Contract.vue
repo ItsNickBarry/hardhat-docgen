@@ -18,21 +18,33 @@
       <p>{{ json.details }}</p>
     </code>
 
-    <Member :json="json.constructor" />
-    <Member :json="json.receive" />
-    <Member :json="json.fallback" />
+    <Member
+      v-if="json.hasOwnProperty('constructor')"
+      :json="json.constructor"
+    />
+    <Member
+      v-if="json.receive"
+      :json="json.receive"
+    />
+    <Member
+      v-if="json.fallback"
+      :json="json.fallback"
+    />
 
     <MemberSet
+      v-if="json.events"
       title="Events"
       :json="json.events"
     />
 
     <MemberSet
+      v-if="json.stateVariables"
       title="State Variables"
       :json="json.stateVariables"
     />
 
     <MemberSet
+      v-if="json.methods"
       title="Methods"
       :json="json.methods"
     />
@@ -45,6 +57,7 @@ import MemberSet from './MemberSet.vue';
 
 export default {
   components: { Member, MemberSet },
+
   props: {
     json: { type: Object, default: () => new Object() },
   },
