@@ -9,7 +9,7 @@
         class="py-1 px-2 text-gray-500"
         @click="openLink(url)"
       >
-        Github
+        built with {{ packageName }}
       </button>
     </div>
   </div>
@@ -20,6 +20,7 @@ export default {
   data: function () {
     return {
       url: require('../../package.json').repository,
+      packageName: require('../../package.json').name,
     };
   },
   methods: {
