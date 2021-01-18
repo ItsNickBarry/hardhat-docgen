@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full mt-8">
     <h2 class="text-lg">{{ title }}</h2>
     <Member
       class="mt-3"
