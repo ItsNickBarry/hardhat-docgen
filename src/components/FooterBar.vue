@@ -7,20 +7,22 @@
     >
       <button
         class="py-1 px-2 text-gray-500"
-        @click="openLink(url)"
+        @click="openLink(repository)"
       >
-        built with {{ packageName }}
+        built with {{ name }}
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import { repository, name } from '../../package.json';
+
 export default {
   data: function () {
     return {
-      url: require('../../package.json').repository,
-      packageName: require('../../package.json').name,
+      repository,
+      name,
     };
   },
   methods: {
