@@ -1,14 +1,11 @@
 <template>
-  <div class="min-h-screen bg-gray-100 px-4 pt-6 pb-20">
+  <div class="min-h-screen bg-gray-100 px-4 pt-6">
     <router-view />
   </div>
 </template>
 
-<script></script>
-
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600;700&display=swap');
 html,
 body {
   font-family: 'Source Code Pro', monospace;
