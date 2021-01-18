@@ -3,7 +3,13 @@
     <HeaderBar />
     <div class="pb-32">
       <div class="space-y-4">
-        <h1 class="text-xl">{{ json.name }} ({{ json.source }})</h1>
+        <span class="text-lg">
+          {{ json.source }}
+        </span>
+
+        <h1 class="text-xl">
+          {{ json.name }}
+        </h1>
 
         <h2 class="text-lg">
           {{ json.title }}
@@ -18,14 +24,30 @@
         <p>{{ json.details }}</p>
       </div>
 
-      <Member
-        v-if="json.hasOwnProperty('constructor')"
-        :json="json.constructor"
-      />
-      <Member v-if="json.receive" :json="json.receive" />
-      <Member v-if="json.fallback" :json="json.fallback" />
+      <div class="mt-8">
+        <Member
+          v-if="json.hasOwnProperty('constructor')"
+          :json="json.constructor"
+        />
+      </div>
+      <div class="mt-8">
+        <Member
+          v-if="json.receive"
+          :json="json.receive"
+        />
+      </div>
+      <div class="mt-8">
+        <Member
+          v-if="json.fallback"
+          :json="json.fallback"
+        />
+      </div>
 
-      <MemberSet v-if="json.events" title="Events" :json="json.events" />
+      <MemberSet
+        v-if="json.events"
+        title="Events"
+        :json="json.events"
+      />
 
       <MemberSet
         v-if="json.stateVariables"
@@ -33,7 +55,11 @@
         :json="json.stateVariables"
       />
 
-      <MemberSet v-if="json.methods" title="Methods" :json="json.methods" />
+      <MemberSet
+        v-if="json.methods"
+        title="Methods"
+        :json="json.methods"
+      />
     </div>
     <FooterBar />
   </div>
@@ -49,7 +75,7 @@ export default {
   components: { Member, MemberSet, HeaderBar, FooterBar },
 
   props: {
-    json: { type: Object, default: () => new Object() }
-  }
+    json: { type: Object, default: () => new Object() },
+  },
 };
 </script>
