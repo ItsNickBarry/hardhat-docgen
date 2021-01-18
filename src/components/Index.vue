@@ -1,44 +1,43 @@
 <template>
   <div class="w-full space-y-10 md:max-w-screen-sm lg:max-w-screen-md m-auto">
-    <Branch
-      :json="trees"
-      name="Sources:"
-    />
+    <Branch :json="trees" name="Sources:" />
+    <FooterBar class="mt-20" />
   </div>
 </template>
 
 <script>
+import FooterBar from './FooterBar.vue';
 import Branch from './Branch.vue';
 
 export default {
-  components: { Branch },
+  components: { Branch, FooterBar },
 
   props: {
-    json: { type: Object, default: () => new Object() },
+    json: { type: Object, default: () => new Object() }
   },
 
   computed: {
-    trees: function () {
+    trees: function() {
       let trees = {};
 
       for (let path in this.json) {
-        path.split(/(?<=\/)/).reduce(function (acc, dir) {
-          if (dir.includes(':')) {
-            let [file] = dir.split(':');
-            acc[file] = acc[file] || [];
-            acc[file].push(this.json[path]);
-          } else {
-            acc[dir] = acc[dir] || {};
-            return acc[dir];
-          }
-        }.bind(this), trees);
+        path.split(/(?<=\/)/).reduce(
+          function(acc, dir) {
+            if (dir.includes(':')) {
+              let [file] = dir.split(':');
+              acc[file] = acc[file] || [];
+              acc[file].push(this.json[path]);
+            } else {
+              acc[dir] = acc[dir] || {};
+              return acc[dir];
+            }
+          }.bind(this),
+          trees
+        );
       }
 
       return trees;
-    },
-  },
+    }
+  }
 };
 </script>
-
-<style>
-</style>
