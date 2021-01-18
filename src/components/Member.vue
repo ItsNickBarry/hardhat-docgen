@@ -9,8 +9,14 @@
 
       <p>{{ json.details }}</p>
 
-      <MemberSection :puts="inputs" name="Parameters" />
-      <MemberSection :puts="outputs" name="Return Values" />
+      <MemberSection
+        name="Parameters"
+        :items="inputs"
+      />
+      <MemberSection
+        name="Return Values"
+        :items="outputs"
+      />
     </div>
   </div>
 </template>
@@ -20,7 +26,7 @@ import MemberSection from './MemberSection.vue';
 export default {
   components: { MemberSection },
   props: {
-    json: { type: Object, default: () => new Object() }
+    json: { type: Object, default: () => new Object() },
   },
 
   computed: {
@@ -54,7 +60,7 @@ export default {
     inputs: function() {
       return (this.json.inputs || []).map(i => ({
         ...i,
-        desc: this.params[i.name]
+        desc: this.params[i.name],
       }));
     },
 
@@ -65,13 +71,13 @@ export default {
     outputs: function() {
       return (this.json.outputs || []).map((i, index) => ({
         ...i,
-        desc: this.returns[i.name || `_${index}`]
+        desc: this.returns[i.name || `_${index}`],
       }));
     },
 
     outputSignature: function() {
       return `(${this.outputs.map(i => i.type).join(',')})`;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,20 +1,23 @@
 <template>
-  <ul v-if="puts.length > 0">
+  <ul v-if="items.length > 0">
     <h4 class="text-lg">
       {{ name }}
     </h4>
     <li
-      v-for="(put, index) in puts"
+      v-for="(item, index) in items"
       :key="index"
     >
-      <span class="bg-gray-300">{{ put.type }}</span>
-      <b>{{ put.name || `_${index}` }}</b><span v-if="put.desc">: <i>{{ put.desc }}</i></span>
+      <span class="bg-gray-300">{{ item.type }}</span>
+      <b>{{ item.name || `_${index}` }}</b><span v-if="item.desc">: <i>{{ item.desc }}</i></span>
     </li>
   </ul>
 </template>
 
 <script>
 export default {
-  props: ['puts', 'name'],
+  props: {
+    name: { type: String, default: '' },
+    items: { type: Array, default: () => new Array() },
+  },
 };
 </script>
