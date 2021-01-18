@@ -7,7 +7,7 @@
     >
       <button
         class="py-1 px-2 text-gray-500"
-        @click="openLink('https://github.com/ItsNickBarry/hardhat-docgen')"
+        @click="openLink(url)"
       >
         Github
       </button>
@@ -17,10 +17,15 @@
 
 <script>
 export default {
+  data: function () {
+    return {
+      url: require('../../package.json').repository,
+    };
+  },
   methods: {
     openLink(link) {
       window.open(link, '_blank');
-    }
-  }
+    },
+  },
 };
 </script>
