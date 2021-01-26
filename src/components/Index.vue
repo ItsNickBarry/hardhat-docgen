@@ -1,6 +1,9 @@
 <template>
-  <div class="w-full space-y-10 md:max-w-screen-sm lg:max-w-screen-md m-auto">
-    <Branch :json="trees" name="Sources:" />
+  <div class="w-full space-y-10 md:max-w-screen-sm lg:max-w-screen-md mx-auto pb-32">
+    <Branch
+      :json="trees"
+      name="Sources:"
+    />
     <FooterBar class="mt-20" />
   </div>
 </template>
