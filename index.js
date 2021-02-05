@@ -55,13 +55,17 @@ task(NAME, DESC, async function (args, hre) {
     const { title, author, details } = devdoc;
     const { notice } = userdoc;
 
-    // extract constructor, receive, and fallback from abi
+    // derive external signatures from internal types
+
+    const getSigType = function ({ type, components = [] }) {
+      return type.replace('tuple', `(${ components.map(getSigType).join(',') })`);
+    };
 
     const identifiers = abi.reduce(function (acc, el) {
       // constructor, fallback, and receive do not have names
       let name = el.name || el.type;
       let inputs = el.inputs || [];
-      acc[`${ name }(${ inputs.map(i => i.type).join(',') })`] = el;
+      acc[`${ name }(${ inputs.map(getSigType)})`] = el;
       return acc;
     }, {});
 
@@ -87,7 +91,7 @@ task(NAME, DESC, async function (args, hre) {
       Object.assign(identifiers[sig], userdoc.methods[sig]);
     });
 
-    const classified = Object.keys(identifiers).reduce(function (acc, sig) {
+    const identifiersByType = Object.keys(identifiers).reduce(function (acc, sig) {
       const { type } = identifiers[sig];
       acc[type] = acc[type] || {};
       acc[type][sig] = identifiers[sig];
@@ -111,9 +115,9 @@ task(NAME, DESC, async function (args, hre) {
       fallback,
       receive,
       // docs
-      events: classified.event,
-      stateVariables: classified.stateVariable,
-      methods: classified.function,
+      events: identifiersByType.event,
+      stateVariables: identifiersByType.stateVariable,
+      methods: identifiersByType.function,
     };
   }
 
