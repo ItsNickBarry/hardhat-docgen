@@ -72,23 +72,39 @@ task(NAME, DESC, async function (args, hre) {
     // associate devdoc and userdoc comments with abi elements
 
     Object.keys(devdoc.events || {}).forEach(function (sig) {
-      Object.assign(identifiers[sig], devdoc.events[sig]);
+      Object.assign(
+        identifiers[sig] || {},
+        devdoc.events[sig]
+      );
     });
 
     Object.keys(devdoc.stateVariables || {}).forEach(function (name) {
-      Object.assign(identifiers[`${ name }()`], devdoc.stateVariables[name], { type: 'stateVariable' });
+      Object.assign(
+        identifiers[`${ name }()`] || {},
+        devdoc.stateVariables[name],
+        { type: 'stateVariable' }
+      );
     });
 
     Object.keys(devdoc.methods || {}).forEach(function (sig) {
-      Object.assign(identifiers[sig], devdoc.methods[sig]);
+      Object.assign(
+        identifiers[sig] || {},
+        devdoc.methods[sig]
+      );
     });
 
     Object.keys(userdoc.events || {}).forEach(function (sig) {
-      Object.assign(identifiers[sig], userdoc.events[sig]);
+      Object.assign(
+        identifiers[sig] || {},
+        userdoc.events[sig]
+      );
     });
 
     Object.keys(userdoc.methods || {}).forEach(function (sig) {
-      Object.assign(identifiers[sig], userdoc.methods[sig]);
+      Object.assign(
+        identifiers[sig] || {},
+        userdoc.methods[sig]
+      );
     });
 
     const identifiersByType = Object.keys(identifiers).reduce(function (acc, sig) {
