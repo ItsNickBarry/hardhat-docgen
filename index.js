@@ -61,7 +61,7 @@ task(NAME, DESC, async function (args, hre) {
       return type.replace('tuple', `(${ components.map(getSigType).join(',') })`);
     };
 
-    const identifiers = abi.reduce(function (acc, el) {
+    const members = abi.reduce(function (acc, el) {
       // constructor, fallback, and receive do not have names
       let name = el.name || el.type;
       let inputs = el.inputs || [];
@@ -73,14 +73,14 @@ task(NAME, DESC, async function (args, hre) {
 
     Object.keys(devdoc.events || {}).forEach(function (sig) {
       Object.assign(
-        identifiers[sig] || {},
+        members[sig] || {},
         devdoc.events[sig]
       );
     });
 
     Object.keys(devdoc.stateVariables || {}).forEach(function (name) {
       Object.assign(
-        identifiers[`${ name }()`] || {},
+        members[`${ name }()`] || {},
         devdoc.stateVariables[name],
         { type: 'stateVariable' }
       );
@@ -88,34 +88,34 @@ task(NAME, DESC, async function (args, hre) {
 
     Object.keys(devdoc.methods || {}).forEach(function (sig) {
       Object.assign(
-        identifiers[sig] || {},
+        members[sig] || {},
         devdoc.methods[sig]
       );
     });
 
     Object.keys(userdoc.events || {}).forEach(function (sig) {
       Object.assign(
-        identifiers[sig] || {},
+        members[sig] || {},
         userdoc.events[sig]
       );
     });
 
     Object.keys(userdoc.methods || {}).forEach(function (sig) {
       Object.assign(
-        identifiers[sig] || {},
+        members[sig] || {},
         userdoc.methods[sig]
       );
     });
 
-    const identifiersByType = Object.keys(identifiers).reduce(function (acc, sig) {
-      const { type } = identifiers[sig];
+    const membersByType = Object.keys(members).reduce(function (acc, sig) {
+      const { type } = members[sig];
       acc[type] = acc[type] || {};
-      acc[type][sig] = identifiers[sig];
+      acc[type][sig] = members[sig];
       return acc;
     }, {});
 
-    const constructor = identifiers[Object.keys(identifiers).find(k => k.startsWith('constructor('))];
-    const { 'fallback()': fallback, 'receive()': receive } = identifiers;
+    const constructor = members[Object.keys(members).find(k => k.startsWith('constructor('))];
+    const { 'fallback()': fallback, 'receive()': receive } = members;
 
     output[contractName] = {
       // metadata
@@ -131,9 +131,9 @@ task(NAME, DESC, async function (args, hre) {
       fallback,
       receive,
       // docs
-      events: identifiersByType.event,
-      stateVariables: identifiersByType.stateVariable,
-      methods: identifiersByType.function,
+      events: membersByType.event,
+      stateVariables: membersByType.stateVariable,
+      methods: membersByType.function,
     };
   }
 
