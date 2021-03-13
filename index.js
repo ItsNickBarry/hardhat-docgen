@@ -11,11 +11,15 @@ const {
 } = require('hardhat/builtin-tasks/task-names');
 
 extendConfig(function (config, userConfig) {
+  const { root, sources } = config.paths;
+
   config.docgen = Object.assign(
     {
       path: './docgen',
       clear: false,
       runOnCompile: false,
+      only: [`^${ path.relative(root, sources) }/`],
+      except: [],
     },
     userConfig.docgen
   );
@@ -46,6 +50,9 @@ task(NAME, DESC, async function (args, hre) {
   const contractNames = await hre.artifacts.getAllFullyQualifiedNames();
 
   for (let contractName of contractNames) {
+    if (config.only.length && !config.only.some(m => contractName.match(m))) continue;
+    if (config.except.length && config.except.some(m => contractName.match(m))) continue;
+
     const [source, name] = contractName.split(':');
 
     const { abi, devdoc = {}, userdoc = {} } = (

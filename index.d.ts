@@ -6,6 +6,8 @@ declare module 'hardhat/types/config' {
       path?: string,
       clear?: boolean,
       runOnCompile?: boolean,
+      only?: string[],
+      except?: string[],
     }
   }
 
@@ -14,6 +16,8 @@ declare module 'hardhat/types/config' {
       path: string,
       clear: boolean,
       runOnCompile: boolean,
+      only: string[],
+      except: string[],
     }
   }
 }

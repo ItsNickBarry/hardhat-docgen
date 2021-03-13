@@ -23,6 +23,8 @@ Add configuration under the `docgen` key:
 | `path` | path to HTML export directory (relative to Hardhat root) | `'./docgen'`
 | `clear` | whether to delete old files in `path` on documentation generation  | `false` |
 | `runOnCompile` | whether to automatically generate documentation during compilation | `false` |
+| `only` | `Array` of `String` matchers used to select included contracts, defaults to all contracts if `length` is 0 | `['^contracts/']` (dependent on Hardhat `paths` configuration) |
+| `except` | `Array` of `String` matchers used to exclude contracts | `[]` |
 
 ```javascript
 docgen: {
