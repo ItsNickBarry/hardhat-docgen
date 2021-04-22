@@ -43,7 +43,7 @@ task(NAME, DESC, async function (args, hre) {
     throw new HardhatPluginError('resolved path must not be root directory');
   }
 
-  if (config.clear) {
+  if (config.clear && fs.existsSync(outputDirectory)) {
     fs.rmdirSync(outputDirectory, { recursive: true });
   }
 
