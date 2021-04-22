@@ -1,6 +1,6 @@
 # Hardhat Docgen
 
-Generate NatSpec documentation automatically on compilation with Hardhat.
+Generate a static documentation site from NatSpec comments automatically on compilation with Hardhat.
 
 ## Installation
 
