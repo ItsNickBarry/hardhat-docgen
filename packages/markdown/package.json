@@ -1,0 +1,26 @@
+{
+  "name": "@hardhat-docgen/markdown",
+  "version": "1.2.1",
+  "description": "> TODO: description",
+  "author": "Andres Adjimann <andres@sandbox.game>",
+  "homepage": "https://github.com/thesandboxgame/hardhat-docgen#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "directories": {
+  },
+  "files": [
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thesandboxgame/hardhat-docgen.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/thesandboxgame/hardhat-docgen/issues"
+  }
+}

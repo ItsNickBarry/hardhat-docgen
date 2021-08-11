@@ -1,0 +1,33 @@
+{
+    "name": "@hardhat-docgen/vue",
+    "version": "1.2.1",
+    "description": "A vue based rendere for hardhat-docgen",
+    "author": "Andres Adjimann <andres@sandbox.game>",
+    "homepage": "",
+    "license": "ISC",
+    "main": "index.js",
+    "directories": {
+    },
+    "files": [
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "test": "echo \"Error: run tests from root\" && exit 1"
+    },
+    "dependencies": {
+        "css-loader": "^2.1.0",
+        "html-webpack-plugin": "^3.2.0",
+        "vue": "^2.6.12",
+        "vue-loader": "^15.6.4",
+        "vue-router": "^3.4.9",
+        "vue-template-compiler": "^2.6.7",
+        "webpack": "^4.29.5"
+    },
+    "devDependencies": {
+        "eslint": "^7.17.0",
+        "eslint-plugin-vue": "^7.4.1",
+        "webpack-cli": "^3.2.3"
+    }
+}
