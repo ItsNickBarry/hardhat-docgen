@@ -1,6 +1,6 @@
 {
     "name": "@hardhat-docgen/example",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "> TODO: description",
     "author": "Andres Adjimann <andres@sandbox.game>",
     "homepage": "https://github.com/thesandboxgame/hardhat-docgen#readme",
@@ -31,7 +31,7 @@
     },
     "devDependencies": {
         "@hardhat-docgen/core": "^1.2.3",
-        "@hardhat-docgen/markdown": "^1.2.2",
+        "@hardhat-docgen/markdown": "^1.2.4",
         "@hardhat-docgen/vue": "^1.2.2",
         "hardhat": "^2.6.0"
     }
