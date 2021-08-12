@@ -1,6 +1,6 @@
 {
   "name": "@hardhat-docgen/core",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "license": "MIT",
   "description": "Generate NatSpec documentation automatically on compilation",
   "keywords": [
