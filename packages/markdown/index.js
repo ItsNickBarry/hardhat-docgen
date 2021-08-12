@@ -165,9 +165,13 @@ module.exports = async function (outputDirectory, data) {
     const [sourceFileName, contractName] = c.split(':');
     const buildInfo = processBuildInfo(sourceFileName, contractName, data[c]);
     const text = renderContract(sourceFileName, contractName, buildInfo);
+    const dirName = path.join(outputDirectory, path.dirname(sourceFileName));
+    if (!fs.existsSync(dirName)) {
+      fs.mkdirSync(dirName, { recursive: true });
+    }
     const fileName = path.basename(contractName, path.extname(contractName));
     fs.writeFileSync(
-      path.join(outputDirectory, fileName + '.md'),
+      path.join(dirName, fileName + '.md'),
       text
     );
   }
