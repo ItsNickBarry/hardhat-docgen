@@ -1,2 +1,5 @@
 node_modules/
 dist/
+.idea/
+lerna-debug.log
+yarn-error.log
