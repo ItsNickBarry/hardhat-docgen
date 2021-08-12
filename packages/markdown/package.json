@@ -1,15 +1,13 @@
 {
   "name": "@hardhat-docgen/markdown",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "> TODO: description",
   "author": "Andres Adjimann <andres@sandbox.game>",
   "homepage": "https://github.com/thesandboxgame/hardhat-docgen#readme",
   "license": "ISC",
   "main": "index.js",
-  "directories": {
-  },
-  "files": [
-  ],
+  "directories": {},
+  "files": [],
   "publishConfig": {
     "access": "public"
   },
