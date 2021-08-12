@@ -8,7 +8,7 @@ declare module 'hardhat/types/config' {
       runOnCompile?: boolean,
       only?: string[],
       except?: string[],
-      theme: string,
+      theme?: string,
     }
   }
 
@@ -19,7 +19,7 @@ declare module 'hardhat/types/config' {
       runOnCompile: boolean,
       only: string[],
       except: string[],
-      theme:string,
+      theme?:string,
     }
   }
 }
