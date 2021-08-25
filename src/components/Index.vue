@@ -24,7 +24,10 @@ export default {
       let trees = {};
 
       for (let path in this.json) {
-        path.split(/(?<=\/)/).reduce(
+        // lookbehind is much cleaner, but it not supported by some browers
+        // path.split(/(?<=\/)/)
+
+        path.replace('/', '//').split(/\/(?=[^\/])/).reduce(
           function(acc, dir) {
             if (dir.includes(':')) {
               let [file] = dir.split(':');
