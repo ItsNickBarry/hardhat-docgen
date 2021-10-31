@@ -55,9 +55,13 @@ task(NAME, DESC, async function (args, hre) {
 
     const [source, name] = contractName.split(':');
 
-    const { abi, devdoc = {}, userdoc = {} } = (
+    const { abi, devdoc, userdoc } = (
       await hre.artifacts.getBuildInfo(contractName)
     ).output.contracts[source][name];
+
+    if (!(devdoc && userdoc)) {
+      throw new HardhatPluginError('devdoc and/or userdoc not found in compilation artifacts (try running `hardhat compile --force`)');
+    }
 
     const { title, author, details } = devdoc;
     const { notice } = userdoc;
