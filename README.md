@@ -34,12 +34,18 @@ docgen: {
 }
 ```
 
-The `path` directory will be created if it does not exist.
-
-The `clear` option is set to `false` by default because it represents a destructive action, but should be set to `true` in most cases.
-
-The included Hardhat task may be run manually; however, it is imperative that the `compile` task be run at least once after plugin installation to ensure that the correct compiler options are set:
+The included Hardhat task may be run manually:
 
 ```bash
 yarn run hardhat docgen
 ```
+
+By default, the hardhat `compile` task is run before generating documentation.  This behavior can be disabled with the `--no-compile` flag:
+
+```bash
+yarn run hardhat docgen --no-compile
+```
+
+The `path` directory will be created if it does not exist.
+
+The `clear` option is set to `false` by default because it represents a destructive action, but should be set to `true` in most cases.

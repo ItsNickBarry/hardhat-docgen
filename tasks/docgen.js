@@ -2,10 +2,21 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const { HardhatPluginError } = require('hardhat/plugins');
+const {
+  TASK_COMPILE,
+} = require('hardhat/builtin-tasks/task-names');
 
 const webpackConfig = require('../webpack.config.js');
 
-task('docgen', 'Generate NatSpec documentation automatically on compilation', async function (args, hre) {
+task(
+  'docgen', 'Generate NatSpec documentation automatically on compilation'
+).addFlag(
+  'noCompile', 'Don\'t compile before running this task'
+).setAction(async function (args, hre) {
+  if (!args.noCompile) {
+    await hre.run(TASK_COMPILE, { noDocgen: true });
+  }
+
   const config = hre.config.docgen;
 
   const output = {};
