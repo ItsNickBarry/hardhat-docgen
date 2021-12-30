@@ -2,7 +2,9 @@ const {
   TASK_COMPILE,
 } = require('hardhat/builtin-tasks/task-names');
 
-task(TASK_COMPILE, async function (args, hre, runSuper) {
+task(TASK_COMPILE).addFlag(
+  'noDocgen', 'Don\'t generate documentation after running this task, even if runOnCompile option is enabled'
+).setAction(async function (args, hre, runSuper) {
   for (let compiler of hre.config.solidity.compilers) {
     compiler.settings.outputSelection['*']['*'].push('devdoc');
     compiler.settings.outputSelection['*']['*'].push('userdoc');
@@ -10,7 +12,7 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
 
   await runSuper();
 
-  if (hre.config.docgen.runOnCompile) {
-    await hre.run('docgen');
+  if (hre.config.docgen.runOnCompile && !args.noDocgen) {
+    await hre.run('docgen', { noCompile: true });
   }
 });
