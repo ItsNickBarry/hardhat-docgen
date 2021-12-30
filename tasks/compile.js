@@ -13,6 +13,7 @@ task(TASK_COMPILE).addFlag(
   await runSuper();
 
   if (hre.config.docgen.runOnCompile && !args.noDocgen) {
+    // Disable compile to avoid an infinite loop
     await hre.run('docgen', { noCompile: true });
   }
 });
