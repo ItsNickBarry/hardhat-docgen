@@ -5,6 +5,8 @@ Generate a static documentation site from NatSpec comments automatically on comp
 ## Installation
 
 ```bash
+npm install --save-dev hardhat-docgen
+# or
 yarn add --dev hardhat-docgen
 ```
 
@@ -37,12 +39,16 @@ docgen: {
 The included Hardhat task may be run manually:
 
 ```bash
+npx hardhat docgen
+# or
 yarn run hardhat docgen
 ```
 
 By default, the hardhat `compile` task is run before generating documentation.  This behavior can be disabled with the `--no-compile` flag:
 
 ```bash
+npx hardhat docgen --no-compile
+# or
 yarn run hardhat docgen --no-compile
 ```
 
