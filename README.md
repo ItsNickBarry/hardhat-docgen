@@ -2,12 +2,14 @@
 
 Generate a static documentation site from NatSpec comments automatically on compilation with Hardhat.
 
+> Versions of this plugin prior to `2.0.0` were released as `hardhat-docgen`, outside of the `@solidstate` namespace.
+
 ## Installation
 
 ```bash
-npm install --save-dev hardhat-docgen
+npm install --save-dev @solidstate/hardhat-docgen
 # or
-yarn add --dev hardhat-docgen
+yarn add --dev @solidstate/hardhat-docgen
 ```
 
 ## Usage
@@ -15,7 +17,7 @@ yarn add --dev hardhat-docgen
 Load plugin in Hardhat config:
 
 ```javascript
-require('hardhat-docgen');
+require('@solidstate/hardhat-docgen');
 ```
 
 Add configuration under the `docgen` key:
