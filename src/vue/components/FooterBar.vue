@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { repository, name } from '../../package.json';
+import { repository, name } from '../../../package.json';
 
 export default {
   data: function () {
