@@ -5,10 +5,7 @@
     <div
       class="w-full text-center py-2 md:max-w-screen-sm lg:max-w-screen-md mx-auto"
     >
-      <button
-        class="py-1 px-2 text-gray-500"
-        @click="openLink(repository)"
-      >
+      <button class="py-1 px-2 text-gray-500" @click="openLink(repository)">
         built with {{ name }}
       </button>
     </div>

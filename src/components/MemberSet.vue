@@ -18,7 +18,7 @@ export default {
 
   props: {
     title: { type: String, default: '' },
-    json: { type: Object, default: () => new Object() }
-  }
+    json: { type: Object, default: () => new Object() },
+  },
 };
 </script>
