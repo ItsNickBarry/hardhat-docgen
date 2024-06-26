@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: `${__dirname}/src/main.js`,
+  entry: `${__dirname}/vue/main.js`,
   module: {
     rules: [
       {
@@ -26,7 +26,7 @@ module.exports = {
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       title: 'Hardhat Docgen',
-      template: `${__dirname}/src/index.html`,
+      template: `${__dirname}/vue/index.html`,
       filename: 'index.html',
     }),
     new VueLoaderPlugin(),
