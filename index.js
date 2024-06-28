@@ -12,9 +12,9 @@ extendConfig(function (config, userConfig) {
       path: './docgen',
       clear: false,
       runOnCompile: false,
-      only: [`^${ path.relative(root, sources) }/`],
+      only: [`^${path.relative(root, sources)}/`],
       except: [],
     },
-    userConfig.docgen
+    userConfig.docgen,
   );
 });
