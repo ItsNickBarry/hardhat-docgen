@@ -17,4 +17,9 @@ extendConfig(function (config, userConfig) {
     },
     userConfig.docgen,
   );
+
+  for (let compiler of config.solidity.compilers) {
+    compiler.settings.outputSelection['*']['*'].push('devdoc');
+    compiler.settings.outputSelection['*']['*'].push('userdoc');
+  }
 });
