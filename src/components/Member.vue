@@ -9,20 +9,15 @@
 
       <p>{{ json.details }}</p>
 
-      <MemberSection
-        name="Parameters"
-        :items="inputs"
-      />
-      <MemberSection
-        name="Return Values"
-        :items="outputs"
-      />
+      <MemberSection name="Parameters" :items="inputs" />
+      <MemberSection name="Return Values" :items="outputs" />
     </div>
   </div>
 </template>
 
 <script>
 import MemberSection from './MemberSection.vue';
+
 export default {
   components: { MemberSection },
   props: {
@@ -30,12 +25,12 @@ export default {
   },
 
   computed: {
-    name: function() {
+    name: function () {
       // special functions are unnamed; default to type
       return this.json.name || this.json.type;
     },
 
-    keywords: function() {
+    keywords: function () {
       let keywords = [];
 
       if (this.json.stateMutability) {
@@ -49,34 +44,34 @@ export default {
       return keywords.join(' ');
     },
 
-    params: function() {
+    params: function () {
       return this.json.params || {};
     },
 
-    returns: function() {
+    returns: function () {
       return this.json.returns || {};
     },
 
-    inputs: function() {
-      return (this.json.inputs || []).map(i => ({
+    inputs: function () {
+      return (this.json.inputs || []).map((i) => ({
         ...i,
         desc: this.params[i.name],
       }));
     },
 
-    inputSignature: function() {
-      return `(${this.inputs.map(i => i.type).join(',')})`;
+    inputSignature: function () {
+      return `(${this.inputs.map((i) => i.type).join(',')})`;
     },
 
-    outputs: function() {
+    outputs: function () {
       return (this.json.outputs || []).map((i, index) => ({
         ...i,
         desc: this.returns[i.name || `_${index}`],
       }));
     },
 
-    outputSignature: function() {
-      return `(${this.outputs.map(i => i.type).join(',')})`;
+    outputSignature: function () {
+      return `(${this.outputs.map((i) => i.type).join(',')})`;
     },
   },
 };

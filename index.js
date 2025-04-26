@@ -12,9 +12,21 @@ extendConfig(function (config, userConfig) {
       path: './docgen',
       clear: false,
       runOnCompile: false,
-      only: [`^${ path.relative(root, sources) }/`],
+      only: [`^${path.relative(root, sources)}/`],
       except: [],
     },
-    userConfig.docgen
+    userConfig.docgen,
   );
+
+  for (const compiler of config.solidity.compilers) {
+    const outputSelection = compiler.settings.outputSelection['*']['*'];
+
+    if (!outputSelection.includes('devdoc')) {
+      outputSelection.push('devdoc');
+    }
+
+    if (!outputSelection.includes('userdoc')) {
+      outputSelection.push('userdoc');
+    }
+  }
 });

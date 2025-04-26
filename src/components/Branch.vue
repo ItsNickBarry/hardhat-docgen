@@ -22,7 +22,7 @@ export default {
 
   props: {
     name: { type: String, default: null },
-    json: { type: [Object, Array], default: () => new Object() }
-  }
+    json: { type: [Object, Array], default: () => new Object() },
+  },
 };
 </script>
